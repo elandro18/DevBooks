@@ -1,0 +1,37 @@
+Aqui ficara toda a estrutura do projeto
+- Será feito com a teclogia mvc.
+
+Banco de Dados
+Tabelas:
+    -Users
+        --ID
+        --Email
+        --password
+        --name
+        --birthdate
+        --city
+        --work
+        --avatar
+        --cover
+        --token
+    -UserRelations
+        --ID
+        --user_from
+        --user_to
+    -Posts
+        --id
+        --type(text, photo)
+        --created_at
+        --body
+        --like_count
+    -PostComments
+        --id
+        --id_post
+        --id_user
+        --created_at
+        --body
+    -PostLikes
+        --id
+        --id_post
+        --id_user
+        --created_at
