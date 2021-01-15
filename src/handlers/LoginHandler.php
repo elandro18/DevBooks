@@ -21,7 +21,7 @@ class LoginHandler{
         }
         return false;
     }
-    public static function verifyLogin($email, $senha){
+    public static function verifyLogin($email, $password){
         $user = User::select()->where('email', $email)->one();
         if($user){
             if(password_verify($password, $user['password'])){
@@ -31,16 +31,20 @@ class LoginHandler{
                     ->where('email', $email)
                     ->execute();
                 return $token;
+            }else{
+                return $user; 
             }
+        }else{
+            return 5;
         }
-        return false;
+        return 2;
     }
-    public function emailExist($email){
+    public static function emailExist($email){
         $user = User::select()->where('email', $email)->one();
-        return $user? true:false;
+        return $user? true : false;
     }
-    public function addUser($name, $email, $password, $birthdate){
-        $hash = password_hash('$password', PASSWORD_DEFAULT);
+    public static function addUser($name, $email, $password, $birthdate){
+        $hash = password_hash('$password', PASSWORD_BCRYPT);
         $token = md5(time().rand(0,9999).time());
         User::insert([
             'email' => $email,

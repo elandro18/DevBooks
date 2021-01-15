@@ -20,18 +20,23 @@ class LoginController extends Controller
 
     public function signinAction()
     {
-
         $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = filter_input(INPUT_POST, 'password');
+
         if ($email && $password) {
 
             $token = LoginHandler::verifyLogin($email, $password);
-            if ($token) {
+            
+            if ($token == 1) {
                 $_SESSION['token'] = $token;
-                $this->redirect('/');
+                //$this->redirect('/');
+                echo $token;
             } else {
                 $_SESSION['flash'] = 'E-mail e/ou senha não conferem';
-                $this->redirect('/login');
+                //$this->redirect('/login');
+               echo '<pre>';
+               var_dump($token);
+               echo '</pre>';
             }
 
         } else {
@@ -61,19 +66,20 @@ class LoginController extends Controller
 
             $birthdate = explode('/', $birthdate);
             if (count($birthdate) != 3) {
-                $_SESSION['flash'] = 'Data de nascimento inválida';
+                $_SESSION['flash'] = 'Data de nascimento inválida 1';
                 $this->redirect('/cadastro');
             }
-            $birthdate = $birthdate[2] . '-' . $birthdate[1] . $birthdate[0];
+            $birthdate = $birthdate[2] . '-' . $birthdate[1] .'-'. $birthdate[0];
             if (strtotime($birthdate) === false) {
 
-                $_SESSION['flash'] = 'Data de nascimento inválida';
+                $_SESSION['flash'] = 'Data de nascimento inválida 2';
                 $this->redirect('/cadastro');
             }
             if(LoginHandler::emailExist($email) === false){
                 $token = LoginHandler::addUser($name, $email, $password, $birthdate);
                 $_SESSION['token'] = $token;
                 $this->redirect('/');
+
 
             }else{
                 $_SESSION['flash'] = 'E-mail ja cadastro';
