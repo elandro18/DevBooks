@@ -27,23 +27,20 @@ class LoginController extends Controller
 
             $token = LoginHandler::verifyLogin($email, $password);
             
-            if ($token == 1) {
+            if ($token) {
                 $_SESSION['token'] = $token;
-                //$this->redirect('/');
-                echo $token;
+                $this->redirect('/');
             } else {
                 $_SESSION['flash'] = 'E-mail e/ou senha não conferem';
-                //$this->redirect('/login');
-               echo '<pre>';
-               var_dump($token);
-               echo '</pre>';
+                $this->redirect('/login');
             }
 
         } else {
             $_SESSION['flash'] = 'Digite os campos de e-mail e/ou senha.';
-            $this->redirect('/');
+            $this->redirect('/login');
         }
     }
+
     public function signup()
     {
         $flash = '';
